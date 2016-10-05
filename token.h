@@ -1,4 +1,9 @@
-
+/*
+    Christie Altadonna
+    CSE 109
+    Program 4
+    TOKEN: member variables, functions, contructor, deconstructor
+*/
 //#include <cstring>
 #include <string>  //SAYS STRING NOT DECLARED
 #include <stdlib.h>

@@ -1,4 +1,9 @@
-
+/*
+    Christie Altadonna
+    CSE 109
+    Program 4
+    LEXER: Implementation of lexer member functions, constructor, deconstructor
+*/
 #include "token.h"
 #include "lexer.h"
 #include <iostream>
@@ -61,8 +66,8 @@ Lexer::Lexer(istream& istream):inputStream(istream){
     int puncType[] = {Token::LPAREN, Token::RPAREN, Token::LBRACE, Token::RBRACE, Token::COMMA, Token::SEMICOLON};
 
     
-
-
+    int saveLine;
+    int firstPos;
     //dont need to initliaze char or else going to always skip a ch
     //between tokens- ch is initialized in constructor and them
     //incremented from there
@@ -74,6 +79,8 @@ Lexer::Lexer(istream& istream):inputStream(istream){
       ch = nextChar();
     }
     if(isalpha(ch)){
+      firstPos = pos;
+      saveLine = line;
       lexemeBuild = lexemeBuild+ch;
       ch = nextChar();
       while(isalnum(ch)){
@@ -86,17 +93,19 @@ Lexer::Lexer(istream& istream):inputStream(istream){
       //test to see if its a keyword
       for(int i = 0; i < 7; i++){
 	if(lexemeBuild == keys[i]){
-	  return  token = Token(type[i], lexemeBuild, line, pos);  //CAN USE
+	  return  token = Token(type[i], lexemeBuild, saveLine, firstPos);  //CAN USE
 							   //CONSTRUCTOR
 							   //LIKE THIS
 	}
       }
 
       //wont reach this part unless not a keyword
-      return token = Token(Token::IDENT, lexemeBuild, line, pos);
+      return token = Token(Token::IDENT, lexemeBuild, saveLine, firstPos);
     }
     //check if first letter of next token is a digit
     else if(isdigit(ch)){
+      firstPos=pos;
+      saveLine = line;
       //      lexemeBuild = lexemeBuild++ch;
       // ch = nextChar();
       while(isdigit(ch)){
@@ -104,25 +113,27 @@ Lexer::Lexer(istream& istream):inputStream(istream){
 	ch = nextChar();
       }
       
-      return token = Token(Token::INTLIT, lexemeBuild, line, pos);
+      return token = Token(Token::INTLIT, lexemeBuild, saveLine, firstPos);
     }
     else if(ispunct(ch)){
+      firstPos = pos;
+      saveLine = line;
       //ENDOFILE
       if(ch == '#'){
 	lexemeBuild = lexemeBuild+ch;
-	return token = Token(Token::ENDOFFILE, lexemeBuild, line, pos);
+	return token = Token(Token::ENDOFFILE, lexemeBuild, saveLine, firstPos);
       } // STRINGLIT
       else if(ch == '"'){
-	lexemeBuild = lexemeBuild + ch;
+	//	lexemeBuild = lexemeBuild + ch;
 	ch = nextChar();
 	while(ch != '"'){
 	  lexemeBuild = lexemeBuild + ch;
 	  ch = nextChar();
 	} // exit if closing quote is found
-	lexemeBuild = lexemeBuild + ch; //should be final " b/c
+	//lexemeBuild = lexemeBuild + ch; //should be final " b/c
 					 //exited for loop
 	ch = nextChar(); // always go one further			       
-	return token = Token(Token::STRINGLIT, lexemeBuild, line, pos);
+	return token = Token(Token::STRINGLIT, lexemeBuild, saveLine, firstPos);
 	
 
       }
@@ -136,30 +147,33 @@ Lexer::Lexer(istream& istream):inputStream(istream){
 	  if(ch  == punct[i]){
 	    lexemeBuild =ch;
 	  ch = nextChar(); //always look to next char
-	  return token = Token(puncType[i], lexemeBuild,line,pos);
+	  return token = Token(puncType[i], lexemeBuild,saveLine,firstPos);
 	}
 	}
 
 	//CHECK OPERATOR-WHICH CAN HAVE MORE THAN ONE CH
+
 	while(ispunct(ch)){
 	  lexemeBuild = lexemeBuild + ch;
 	  ch = nextChar();
 	}
 	for(int i = 0; i < 13; i++){
 	  if(lexemeBuild == specChar[i]){
-	    return token = Token(specType[i], lexemeBuild, line, pos);
+	    return token = Token(specType[i], lexemeBuild, saveLine, firstPos);
 	  }
 	}
 
 	// wont reach this if special char found is returned
 	//  cout<< "**ERROR - not correct token****"<< endl;
-	  return token = Token(Token::ERROR, lexemeBuild, line, pos);
+	  return token = Token(Token::ERROR, lexemeBuild, line, firstPos);
       }
     }//IF none of the above ERROR
     else {
+      saveLine=line;
+      firstPos = pos;
       lexemeBuild = lexemeBuild+ch;
       // cout << "**ERROR --- INCORRECT TOKEN USED**";
-      return token = Token(Token::ERROR, lexemeBuild, line, pos);
+      return token = Token(Token::ERROR, lexemeBuild, saveLine, firstPos);
     }
   }
 	 

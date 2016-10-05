@@ -1,4 +1,9 @@
-
+/*
+  Christie Altadonna
+  CSE 109
+  Program 4
+  LEXER: Member variables, functions, constructor, and deconstructor headers
+*/
 #ifndef LEXER_H
 #define LEXER_H
 #include <iostream>
@@ -14,7 +19,8 @@ public:
 
   //deconstructor
   ~Lexer();
-  /*  
+  
+  /* CANT DO THIS HERE BECAUSE TOKEN OBJECT NOT DECLARED  
   int type[] = {Token:: IF, Token:: ELSE, Token:: WHILE, Token:: FUNCTION,
   		  Token:: VAR, Token::PRINTF, Token:: RETURN};
   string keys[] = {"if","else","while","function","var","printf","return"};
@@ -24,7 +30,7 @@ public:
   */
 
 private:
-  istream& inputStream;  //should this be public?
+  istream& inputStream;
   char nextChar();
 
   int line;

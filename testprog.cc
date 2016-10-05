@@ -13,6 +13,9 @@ function main() {
   }else{
     c=123456;
     printf("%ld %ld\n", a, b);
+}
+  if(true == !true){
+    c = 1;
   }
 }#
 

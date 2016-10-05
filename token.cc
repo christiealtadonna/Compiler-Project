@@ -1,4 +1,9 @@
-
+/*
+    Christie Altadonna
+    CSE 109
+    Program 4
+    TOKEN: Implementations of member functions, constructor, deconstructor
+*/
 #include <cstdlib>
 #include <stdio.h>
 #include <iostream>   //can this be in c++ program of stdio?
