@@ -13,9 +13,6 @@ function main() {
   }else{
     c=123456;
     printf("%ld %ld\n", a, b);
-}
-  if(1 != 1){
-    c = 1;
   }
-}#
+}
 
